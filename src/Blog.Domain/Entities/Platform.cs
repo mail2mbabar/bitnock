@@ -63,6 +63,13 @@ public sealed class MediaAsset : Entity
         Title = title;
         Description = description;
     }
+
+    public void ReplaceStored(string storageKey, string url, long fileSize)
+    {
+        StorageKey = storageKey;
+        Url = url;
+        FileSize = fileSize;
+    }
 }
 
 public sealed class AgentCredential : Entity

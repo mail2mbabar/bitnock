@@ -185,11 +185,15 @@ public sealed class DatabaseSeeder
                 updated++;
             }
 
-            if (media.TryGetValue(SeedArticles.ThumbFile(spec.Slug), out var thumb) && article.FeaturedImageId != thumb.Id)
+            if (media.TryGetValue(SeedArticles.ThumbFile(spec.Slug), out var thumb))
             {
-                article.SetImages(thumb.Id, thumb.Id, now);
+                if (article.FeaturedImageId != thumb.Id)
+                {
+                    article.SetImages(thumb.Id, thumb.Id, now);
+                    imaged++;
+                }
+
                 article.UpdateSeo(article.MetaTitle, article.MetaDescription, article.CanonicalUrl, article.OgTitle, article.OgDescription, thumb.Url, now);
-                imaged++;
             }
 
             if (seriesId is not null && article.SeriesId != seriesId)
@@ -347,7 +351,8 @@ public sealed class DatabaseSeeder
         foreach (var path in Directory.GetFiles(root))
         {
             var fileName = Path.GetFileName(path);
-            if (result.ContainsKey(fileName))
+            if (result.TryGetValue(fileName, out var existing)
+                && await _storage.ExistsAsync(existing.StorageKey, cancellationToken))
             {
                 continue;
             }
@@ -375,6 +380,12 @@ public sealed class DatabaseSeeder
 
             stream.Position = 0;
             var stored = await _storage.SaveAsync(stream, fileName, mime, cancellationToken);
+            if (existing is not null)
+            {
+                existing.ReplaceStored(stored.StorageKey, stored.Url, stored.FileSize);
+                continue;
+            }
+
             var (title, alt) = MediaCopy(fileName);
             var entity = MediaAsset.Create(fileName, stored.StorageKey, stored.Url, mime, stored.FileSize, width, height, alt, title, null, now);
             _db.MediaAssets.Add(entity);
@@ -399,7 +410,8 @@ public sealed class DatabaseSeeder
         foreach (var spec in SeedArticles.All)
         {
             var fileName = SeedArticles.ThumbFile(spec.Slug);
-            if (result.ContainsKey(fileName))
+            if (result.TryGetValue(fileName, out var existing)
+                && await _storage.ExistsAsync(existing.StorageKey, cancellationToken))
             {
                 continue;
             }
@@ -407,6 +419,12 @@ public sealed class DatabaseSeeder
             var style = SeedArticles.ThumbStyle(spec.Slug);
             await using var stream = CreatorThumbnailGenerator.Render(spec.Title, style.Badge, style.Accent, style.Play);
             var stored = await _storage.SaveAsync(stream, fileName, "image/png", cancellationToken);
+            if (existing is not null)
+            {
+                existing.ReplaceStored(stored.StorageKey, stored.Url, stored.FileSize);
+                continue;
+            }
+
             var entity = MediaAsset.Create(
                 fileName,
                 stored.StorageKey,

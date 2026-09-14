@@ -10,6 +10,7 @@ namespace Blog.Api.Controllers;
 public sealed class MediaDownloadController(IStorageService storage) : ControllerBase
 {
     [HttpGet("{**key}")]
+    [HttpHead("{**key}")]
     [ResponseCache(Duration = 86400)]
     public async Task<IActionResult> Get(string key, CancellationToken cancellationToken)
     {
@@ -32,7 +33,7 @@ public sealed class MediaDownloadController(IStorageService storage) : Controlle
             };
             return File(stream, contentType);
         }
-        catch (FileNotFoundException)
+        catch (IOException)
         {
             return NotFound();
         }

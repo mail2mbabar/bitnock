@@ -39,6 +39,7 @@ public interface IStorageService
     Task<StoredObject> SaveAsync(Stream content, string fileName, string contentType, CancellationToken cancellationToken);
     Task DeleteAsync(string storageKey, CancellationToken cancellationToken);
     Task<Stream> OpenReadAsync(string storageKey, CancellationToken cancellationToken);
+    Task<bool> ExistsAsync(string storageKey, CancellationToken cancellationToken);
 }
 
 public sealed record StoredObject(string StorageKey, string Url, long FileSize);

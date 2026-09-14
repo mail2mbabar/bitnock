@@ -164,19 +164,7 @@ public sealed class LocalStorageService : IStorageService
 
         await content.CopyToAsync(fs, cancellationToken);
         var size = fs.Length;
-        var root = _options.PublicBaseUrl.TrimEnd('/');
-        if (!root.Contains("://", StringComparison.Ordinal))
-        {
-            root = $"https://{root}";
-        }
-
-        if (!root.EndsWith("/media", StringComparison.OrdinalIgnoreCase))
-        {
-            root += "/media";
-        }
-
-        var url = $"{root}/{key.Replace('\\', '/')}";
-        return new StoredObject(key, url, size);
+        return new StoredObject(key, BuildPublicUrl(key), size);
     }
 
     public Task DeleteAsync(string storageKey, CancellationToken cancellationToken)
@@ -195,6 +183,30 @@ public sealed class LocalStorageService : IStorageService
         var full = Path.Combine(Root, storageKey.Replace('/', Path.DirectorySeparatorChar));
         Stream stream = File.OpenRead(full);
         return Task.FromResult(stream);
+    }
+
+    public Task<bool> ExistsAsync(string storageKey, CancellationToken cancellationToken)
+        => Task.FromResult(File.Exists(Path.Combine(Root, storageKey.Replace('/', Path.DirectorySeparatorChar))));
+
+    private string BuildPublicUrl(string storageKey)
+    {
+        var root = (_options.PublicBaseUrl ?? "").Trim().TrimEnd('/');
+        if (!root.Contains("://", StringComparison.Ordinal))
+        {
+            if (!string.IsNullOrWhiteSpace(root) && !root.Contains('.'))
+            {
+                root = $"{root}.onrender.com";
+            }
+
+            root = $"https://{root}";
+        }
+
+        if (!root.EndsWith("/media", StringComparison.OrdinalIgnoreCase))
+        {
+            root += "/media";
+        }
+
+        return $"{root}/{storageKey.Replace('\\', '/')}";
     }
 
     private string Root => Path.IsPathRooted(_options.LocalRoot)
