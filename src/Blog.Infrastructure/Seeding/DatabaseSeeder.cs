@@ -381,7 +381,15 @@ public sealed class DatabaseSeeder
             result[fileName] = entity;
         }
 
-        await SeedGeneratedThumbsAsync(result, now, cancellationToken);
+        try
+        {
+            await SeedGeneratedThumbsAsync(result, now, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Skipping generated article thumbnails; seed will continue without them.");
+        }
+
         await _db.SaveChangesAsync(cancellationToken);
         return result;
     }

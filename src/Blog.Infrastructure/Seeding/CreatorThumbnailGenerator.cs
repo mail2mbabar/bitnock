@@ -93,7 +93,6 @@ internal static class CreatorThumbnailGenerator
 
     private static Font LoadFont(float size)
     {
-        var collection = new FontCollection();
         foreach (var path in FontCandidates())
         {
             if (!File.Exists(path))
@@ -101,11 +100,25 @@ internal static class CreatorThumbnailGenerator
                 continue;
             }
 
-            var family = collection.Add(path);
-            return family.CreateFont(size, FontStyle.Bold);
+            var collection = new FontCollection();
+            return collection.Add(path).CreateFont(size, FontStyle.Bold);
         }
 
-        return SystemFonts.CreateFont("Arial", size, FontStyle.Bold);
+        foreach (var name in new[] { "DejaVu Sans", "Liberation Sans", "FreeSans", "Noto Sans", "Arial", "Segoe UI" })
+        {
+            if (SystemFonts.TryGet(name, out var family))
+            {
+                return family.CreateFont(size, FontStyle.Bold);
+            }
+        }
+
+        var installed = SystemFonts.Collection.Families.FirstOrDefault();
+        if (installed != default)
+        {
+            return installed.CreateFont(size, FontStyle.Bold);
+        }
+
+        throw new InvalidOperationException("No fonts are available to generate article thumbnails.");
     }
 
     private static IEnumerable<string> FontCandidates() =>
@@ -114,6 +127,10 @@ internal static class CreatorThumbnailGenerator
         @"C:\Windows\Fonts\arialbd.ttf",
         @"C:\Windows\Fonts\segoeuib.ttf",
         @"C:\Windows\Fonts\calibrib.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
+        "/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf"
     ];
 }
