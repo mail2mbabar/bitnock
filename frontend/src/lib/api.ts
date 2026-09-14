@@ -1,15 +1,16 @@
 import type { AuthResponse, Envelope } from "./types";
+import { readEnv } from "./env";
 
 function resolveApiBase() {
-  let base = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5080";
-  if (base && !/^https?:\/\//i.test(base)) {
-    base = `https://${base}`;
+  let base = readEnv("API_URL") || readEnv("NEXT_PUBLIC_API_URL") || "http://localhost:5080";
+  if (!/^https?:\/\//i.test(base)) {
+    base = base.includes(".") ? `https://${base}` : `http://${base}:8080`;
   }
   return base.replace(/\/$/, "");
 }
 
 export const serverApi = resolveApiBase();
-export const publicApi = typeof window === "undefined" ? serverApi : (process.env.NEXT_PUBLIC_API_URL || "");
+export const publicApi = typeof window === "undefined" ? serverApi : (readEnv("NEXT_PUBLIC_API_URL") || "");
 
 const failed = <T,>(code: string, message: string): Envelope<T> => ({
   success: false,
@@ -73,7 +74,7 @@ export async function fetchEnvelope<T>(path: string, init?: RequestInit & { reva
   try {
     const response = await fetch(`${serverApi}${path}`, {
       ...rest,
-      signal: rest.signal ?? AbortSignal.timeout(8_000),
+      signal: rest.signal ?? AbortSignal.timeout(15_000),
       headers: { Accept: "application/json", ...(rest.headers ?? {}) },
       ...(revalidate === 0
         ? { cache: "no-store" as const }

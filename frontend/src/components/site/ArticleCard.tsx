@@ -1,13 +1,14 @@
 import Link from "next/link";
 import type { ArticleListItem } from "@/lib/types";
 import { formatDate } from "@/lib/api";
+import { publicAssetUrl } from "@/lib/env";
 
 export function ArticleCard({ article, featured = false }: { article: ArticleListItem; featured?: boolean }) {
   return (
     <article className={featured ? "grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-end" : "flex flex-col gap-3"}>
       {article.featuredImageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={article.featuredImageUrl} alt="" className="aspect-[16/9] w-full rounded-xl object-cover" />
+        <img src={publicAssetUrl(article.featuredImageUrl) ?? article.featuredImageUrl} alt="" className="aspect-[16/9] w-full rounded-xl object-cover" />
       ) : (
         <div className="flex aspect-[16/9] items-end rounded-xl bg-paper-2 p-6">
           <p className="font-serif text-2xl leading-tight">{article.categoryName}</p>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Author } from "@/lib/types";
+import { publicAssetUrl } from "@/lib/env";
 
 const fallbackPhoto = "/authors/muhammad-babar.jpg";
 const mvpBadge = "/mvp/microsoft-mvp-badge.png";
@@ -13,7 +14,7 @@ export function AuthorIdentity({
 }) {
   const name = author?.displayName ?? "Muhammad Babar";
   const slug = author?.slug ?? "muhammad-babar";
-  const photo = author?.avatarUrl || fallbackPhoto;
+  const photo = publicAssetUrl(author?.avatarUrl) || fallbackPhoto;
   const bio = author?.bio ?? "Microsoft MVP and Senior Full Stack .NET Developer in Manchester.";
 
   if (compact) {

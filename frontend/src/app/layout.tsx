@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Sans, Source_Serif_4 } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { SiteShell } from "@/components/site/Chrome";
 import { fetchEnvelope } from "@/lib/api";
+import { readEnv } from "@/lib/env";
 import type { SiteSettings } from "@/lib/types";
 import "./globals.css";
 
@@ -14,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchEnvelope<SiteSettings>("/api/v1/public/settings", { revalidate: 0 }).catch(() => null);
   const name = settings?.data?.siteName ?? "Bitnock";
   const description = settings?.data?.siteDescription ?? "Bitnock is Muhammad Babar’s .NET engineering publication.";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl = readEnv("NEXT_PUBLIC_SITE_URL", "http://localhost:3000");
   const metadataBase = new URL(siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`);
   return {
     title: { default: name, template: `%s · ${name}` },

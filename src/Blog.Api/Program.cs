@@ -26,7 +26,13 @@ static string? WithHttps(string? value)
         return value;
     }
 
-    return value.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? value.TrimEnd('/') : $"https://{value.TrimEnd('/')}";
+    var host = value.Trim().TrimEnd('/');
+    if (!host.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !host.Contains('.'))
+    {
+        host = $"{host}.onrender.com";
+    }
+
+    return host.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? host : $"https://{host}";
 }
 
 builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>

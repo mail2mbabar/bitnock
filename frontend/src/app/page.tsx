@@ -26,7 +26,9 @@ export default async function HomePage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <section>
         <HomepageBrand siteName={settings.data?.siteName ?? "Bitnock"} />
-        <p className="mt-5 max-w-2xl text-lg text-muted">{settings.data?.siteDescription}</p>
+        <p className="mt-5 max-w-2xl text-lg text-muted">
+          {settings.data?.siteDescription ?? "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, and the ABi Helpline videos — with written guides."}
+        </p>
       </section>
 
       {lead ? (

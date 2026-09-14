@@ -34,20 +34,11 @@ services:
           name: bitnock-db
           property: connectionString
       - key: Site__Url
-        fromService:
-          name: bitnock-web
-          type: web
-          property: host
+        value: https://bitnock-web.onrender.com
       - key: Cors__AllowedOrigins__0
-        fromService:
-          name: bitnock-web
-          type: web
-          property: host
+        value: https://bitnock-web.onrender.com
       - key: Storage__PublicBaseUrl
-        fromService:
-          name: bitnock-web
-          type: web
-          property: host
+        value: https://bitnock-web.onrender.com
 
   - type: web
     name: bitnock-web
@@ -64,12 +55,6 @@ services:
       - key: PORT
         value: "10000"
       - key: API_URL
-        fromService:
-          name: bitnock-api
-          type: web
-          property: host
+        value: http://bitnock-api:8080
       - key: NEXT_PUBLIC_SITE_URL
-        fromService:
-          type: web
-          name: bitnock-web
-          property: host
+        value: https://bitnock-web.onrender.com

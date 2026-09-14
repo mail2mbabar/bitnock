@@ -5,6 +5,7 @@ import { ArticleBody, ReadingProgress, ShareBar, TableOfContents } from "@/compo
 import { ArticleCard } from "@/components/site/ArticleCard";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
 import { fetchEnvelope, formatDate, serverApi } from "@/lib/api";
+import { publicAssetUrl } from "@/lib/env";
 import type { ArticleDetail } from "@/lib/types";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -93,7 +94,7 @@ export default async function ArticlePage({ params }: Props) {
           </div>
           {article.featuredImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={article.featuredImageUrl} alt="" className="mt-8 w-full rounded-2xl" />
+            <img src={publicAssetUrl(article.featuredImageUrl) ?? article.featuredImageUrl} alt="" className="mt-8 w-full rounded-2xl" />
           ) : null}
           {article.seriesName && article.seriesSlug ? (
             <div className="mt-8 rounded-xl border border-rule p-4">
