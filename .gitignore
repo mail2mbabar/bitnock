@@ -1,0 +1,19 @@
+# Git
+.vs/
+.vscode/
+bin/
+obj/
+logs/
+storage/
+*.user
+*.suo
+.env
+frontend/.env.local
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+TestResults/
+*.log
+_dir.txt
+.pgdata/
+.pgpass-init

@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Blog.Application\Blog.Application.csproj" />
+    <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="9.0.892" />
+    <PackageReference Include="Markdig" Version="0.41.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,63 @@
+databases:
+  - name: bitnock-db
+    plan: free
+    databaseName: bitnock
+    user: bitnock
+
+services:
+  - type: web
+    name: bitnock-api
+    runtime: docker
+    plan: free
+    dockerfilePath: src/Blog.Api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ASPNETCORE_URLS
+        value: http://+:8080
+      - key: Site__Name
+        value: Bitnock
+      - key: Seed__Enabled
+        value: "true"
+      - key: Jwt__SigningKey
+        generateValue: true
+      - key: ConnectionStrings__Database
+        fromDatabase:
+          name: bitnock-db
+          property: connectionString
+      - key: Site__Url
+        fromService:
+          name: bitnock-web
+          type: web
+          property: host
+      - key: Cors__AllowedOrigins__0
+        fromService:
+          name: bitnock-web
+          type: web
+          property: host
+      - key: Storage__PublicBaseUrl
+        fromService:
+          name: bitnock-web
+          type: web
+          property: host
+
+  - type: web
+    name: bitnock-web
+    runtime: docker
+    plan: free
+    dockerfilePath: frontend/Dockerfile
+    dockerContext: frontend
+    healthCheckPath: /
+    envVars:
+      - key: API_URL
+        fromService:
+          name: bitnock-api
+          type: web
+          property: host
+      - key: NEXT_PUBLIC_SITE_URL
+        fromService:
+          type: web
+          name: bitnock-web
+          property: host
