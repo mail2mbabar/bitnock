@@ -23,11 +23,6 @@ internal static class PostgresConnectionString
             raw = raw.TrimEnd(';') + ";SSL Mode=Require;Trust Server Certificate=true";
         }
 
-        if (!raw.Contains("GSS Encoding Mode", StringComparison.OrdinalIgnoreCase))
-        {
-            raw = raw.TrimEnd(';') + ";GSS Encoding Mode=Disable";
-        }
-
         return raw;
     }
 
@@ -49,7 +44,6 @@ internal static class PostgresConnectionString
             $"Database={database}",
             $"Username={user}",
             $"Password={password}",
-            ssl,
-            "GSS Encoding Mode=Disable");
+            ssl);
     }
 }
