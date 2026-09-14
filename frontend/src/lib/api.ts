@@ -4,7 +4,7 @@ import { readEnv } from "./env";
 function resolveApiBase() {
   let base = readEnv("API_URL") || readEnv("NEXT_PUBLIC_API_URL") || "http://localhost:5080";
   if (!/^https?:\/\//i.test(base)) {
-    base = base.includes(".") ? `https://${base}` : `http://${base}:8080`;
+    base = base.includes(".") ? `https://${base}` : `https://${base}.onrender.com`;
   }
   return base.replace(/\/$/, "");
 }
@@ -70,15 +70,13 @@ function signOutToLogin() {
 }
 
 export async function fetchEnvelope<T>(path: string, init?: RequestInit & { revalidate?: number }): Promise<Envelope<T>> {
-  const { revalidate, ...rest } = init ?? {};
+  const { revalidate: _, ...rest } = init ?? {};
   try {
     const response = await fetch(`${serverApi}${path}`, {
       ...rest,
-      signal: rest.signal ?? AbortSignal.timeout(15_000),
+      cache: "no-store",
+      signal: rest.signal ?? AbortSignal.timeout(25_000),
       headers: { Accept: "application/json", ...(rest.headers ?? {}) },
-      ...(revalidate === 0
-        ? { cache: "no-store" as const }
-        : { next: { revalidate: revalidate ?? 60 } }),
     });
     return await readEnvelope<T>(response);
   } catch {

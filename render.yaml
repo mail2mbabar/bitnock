@@ -55,6 +55,6 @@ services:
       - key: PORT
         value: "10000"
       - key: API_URL
-        value: http://bitnock-api:8080
+        value: https://bitnock-api.onrender.com
       - key: NEXT_PUBLIC_SITE_URL
         value: https://bitnock-web.onrender.com

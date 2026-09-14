@@ -6,7 +6,7 @@ const hopByHop = new Set(["connection", "keep-alive", "proxy-authenticate", "pro
 function upstream() {
   let baseUrl = readEnv("API_URL") || readEnv("NEXT_PUBLIC_API_URL") || "http://localhost:5080";
   if (!/^https?:\/\//i.test(baseUrl)) {
-    baseUrl = baseUrl.includes(".") ? `https://${baseUrl}` : `http://${baseUrl}:8080`;
+    baseUrl = baseUrl.includes(".") ? `https://${baseUrl}` : `https://${baseUrl}.onrender.com`;
   }
   return baseUrl.replace(/\/$/, "");
 }
