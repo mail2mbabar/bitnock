@@ -19,8 +19,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Database")
-                               ?? throw new InvalidOperationException("Connection string 'Database' is not configured.");
+        var connectionString = PostgresConnectionString.Normalize(
+            configuration.GetConnectionString("Database") ?? configuration["DATABASE_URL"]);
 
         services.AddDbContext<BlogDbContext>(options =>
         {
