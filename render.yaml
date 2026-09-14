@@ -9,6 +9,8 @@ services:
     name: bitnock-api
     runtime: docker
     plan: free
+    branch: master
+    autoDeploy: true
     dockerfilePath: src/Blog.Api/Dockerfile
     dockerContext: .
     healthCheckPath: /health
@@ -51,10 +53,16 @@ services:
     name: bitnock-web
     runtime: docker
     plan: free
+    branch: master
+    autoDeploy: true
     dockerfilePath: frontend/Dockerfile
     dockerContext: frontend
     healthCheckPath: /
     envVars:
+      - key: HOSTNAME
+        value: "0.0.0.0"
+      - key: PORT
+        value: "10000"
       - key: API_URL
         fromService:
           name: bitnock-api
