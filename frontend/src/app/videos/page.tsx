@@ -1,19 +1,18 @@
 import Link from "next/link";
-import { YOUTUBE_CHANNEL_NAME, YOUTUBE_CHANNEL_URL, channelVideos, youtubeThumb } from "@/lib/videos";
+import { YOUTUBE_CHANNEL_URL, channelVideos, youtubeThumb } from "@/lib/videos";
 
 export const metadata = {
   title: "Videos",
-  description: "Every ABi Helpline video on Bitnock — C#, ASP.NET Core, interviews, and architecture, with written guides.",
+  description: "Tutorials and interview preparations in C#, ASP.NET Core, and related topics.",
 };
 
 export default function VideosPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
-      <p className="text-xs uppercase tracking-[0.22em] text-muted">ABi Helpline</p>
-      <h1 className="mt-3 font-serif text-4xl md:text-5xl">Every video, on Bitnock</h1>
+      <p className="text-xs uppercase tracking-[0.22em] text-muted">Tutorials</p>
+      <h1 className="mt-3 font-serif text-4xl md:text-5xl">Tutorials and interview preparations</h1>
       <p className="mt-4 max-w-2xl text-lg text-muted">
-        Muhammad Babar’s YouTube channel {YOUTUBE_CHANNEL_NAME} — C#, ASP.NET Core, EF Core, JWT, Clean Architecture, and interview prep.
-        Watch here, then read the long-form notes.
+        C#, ASP.NET Core, EF Core, JWT, Clean Architecture, and interview prep. Watch here, then read the long-form notes.
       </p>
       <p className="mt-4 text-sm">
         <a className="underline" href={YOUTUBE_CHANNEL_URL}>Subscribe on YouTube</a>

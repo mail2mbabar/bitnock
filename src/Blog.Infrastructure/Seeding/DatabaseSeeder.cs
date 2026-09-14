@@ -1,3 +1,4 @@
+using Blog.Application.Common;
 using Blog.Application.Media;
 using Blog.Application.Options;
 using Blog.Domain.Constants;
@@ -137,12 +138,13 @@ public sealed class DatabaseSeeder
             var spec = specs[i];
             var publishedAt = now.AddDays(-(specs.Count - i)).AddHours(8);
             var seriesId = spec.SeriesSlug is null ? null : seriesBySlug.GetValueOrDefault(spec.SeriesSlug)?.Id;
-            var content = SeedArticlesExpand.Apply(spec.Slug, spec.Content);
+            var content = EditorialText.WithoutAiDashes(SeedArticlesExpand.Apply(spec.Slug, spec.Content));
+            var excerpt = EditorialText.WithoutAiDashes(spec.Excerpt);
             if (!bySlug.TryGetValue(spec.Slug, out var article))
             {
-                article = Article.Create(spec.Title, spec.Slug, spec.Excerpt, content, author.Id, Cat(spec.CategorySlug).Id, publishedAt, null, false);
-                article.UpdateEditorial(spec.Title, spec.Slug, spec.Subtitle, spec.Excerpt, content, Cat(spec.CategorySlug).Id, spec.Difficulty, spec.ContentType, seriesId, spec.SeriesPart, spec.Featured, publishedAt);
-                article.UpdateSeo(Clip(spec.Title, 70), Clip(spec.Excerpt, 160), $"/articles/{spec.Slug}", Clip(spec.Title, 120), Clip(spec.Excerpt, 200), null, publishedAt);
+                article = Article.Create(spec.Title, spec.Slug, excerpt, content, author.Id, Cat(spec.CategorySlug).Id, publishedAt, null, false);
+                article.UpdateEditorial(spec.Title, spec.Slug, spec.Subtitle, excerpt, content, Cat(spec.CategorySlug).Id, spec.Difficulty, spec.ContentType, seriesId, spec.SeriesPart, spec.Featured, publishedAt);
+                article.UpdateSeo(Clip(spec.Title, 70), Clip(excerpt, 160), $"/articles/{spec.Slug}", Clip(spec.Title, 120), Clip(excerpt, 200), null, publishedAt);
                 article.Publish(publishedAt);
                 _db.Articles.Add(article);
                 bySlug[spec.Slug] = article;
@@ -166,13 +168,13 @@ public sealed class DatabaseSeeder
                     article.ArticleTechnologies.Add(new ArticleTechnology(article.Id, entity.Id));
                 }
             }
-            else if (article.Content.Length < content.Length)
+            else if (!string.Equals(article.Content, content, StringComparison.Ordinal))
             {
                 article.UpdateEditorial(
                     spec.Title,
                     spec.Slug,
                     spec.Subtitle,
-                    spec.Excerpt,
+                    excerpt,
                     content,
                     Cat(spec.CategorySlug).Id,
                     spec.Difficulty,
@@ -181,7 +183,7 @@ public sealed class DatabaseSeeder
                     spec.SeriesPart ?? article.SeriesOrder,
                     spec.Featured || article.IsFeatured,
                     now);
-                article.UpdateSeo(Clip(spec.Title, 70), Clip(spec.Excerpt, 160), $"/articles/{spec.Slug}", Clip(spec.Title, 120), Clip(spec.Excerpt, 200), article.OgImage, now);
+                article.UpdateSeo(Clip(spec.Title, 70), Clip(excerpt, 160), $"/articles/{spec.Slug}", Clip(spec.Title, 120), Clip(excerpt, 200), article.OgImage, now);
                 updated++;
             }
 

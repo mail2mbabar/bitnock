@@ -20,8 +20,8 @@ export function Header({ siteName }: { siteName: string }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <span className="flex items-center" id="site-brand">
+      <div className="mx-auto flex max-w-6xl min-w-0 items-center justify-between gap-2 px-4 py-3 sm:gap-4">
+        <span className="flex min-w-0 items-center" id="site-brand">
           <BrandLockup siteName={siteName} compact />
         </span>
         <nav className="hidden items-center gap-6 text-sm md:flex" aria-label="Primary">
@@ -76,7 +76,7 @@ export function Footer({ siteName, youtubeUrl }: { siteName: string; youtubeUrl?
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
         <div>
           <BrandLockup siteName={siteName} />
-          <p className="mt-3 text-sm text-muted">Bitnock is Muhammad Babar’s .NET engineering publication. Written for people who ship.</p>
+          <p className="mt-3 text-sm text-muted">Bitnock is Muhammad Babar’s .NET engineering publication. Tutorials and interview preparations, written for people who ship.</p>
         </div>
         <div>
           <p className="text-sm font-medium">Read</p>
@@ -101,7 +101,7 @@ export function Footer({ siteName, youtubeUrl }: { siteName: string; youtubeUrl?
         </div>
         <div>
           <p className="text-sm font-medium">Subscribe</p>
-          <p className="mt-3 text-sm text-muted">One thoughtful article, not a firehose. The videos live on ABi Helpline.</p>
+          <p className="mt-3 text-sm text-muted">One thoughtful article, not a firehose. Tutorials and interview preparations.</p>
           <Link href="/#newsletter" className="mt-3 inline-block text-sm text-accent-2 underline">Join the newsletter</Link>
         </div>
       </div>

@@ -106,7 +106,7 @@ export function SearchBox({
               if (compact && !q.trim()) setExpanded(false);
             }
           }}
-          placeholder={compact ? "Ask Bitnock…" : "Ask anything — how do I log users in, ORM vs SQL…"}
+          placeholder={compact ? "Ask Bitnock…" : "Ask anything: how do I log users in, ORM vs SQL…"}
           className="w-full bg-transparent text-sm outline-none placeholder:text-muted"
         />
         {q ? (

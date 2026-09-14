@@ -43,7 +43,7 @@ function SearchResults() {
       <p className="text-xs uppercase tracking-[0.22em] text-muted">Search</p>
       <h1 className="mt-3 font-serif text-4xl">Ask Bitnock anything</h1>
       <p className="mt-3 max-w-2xl text-muted">
-        Type a question in plain English — “how do I log users in”, “ORM vs SQL”, “interview prep”. We rank the closest article even when you don’t use the exact keywords.
+        Type a question in plain English: “how do I log users in”, “ORM vs SQL”, “interview prep”. We rank the closest article even when you don’t use the exact keywords.
       </p>
       <div className="mt-6">
         <SearchBox autoFocus={!q} defaultQuery={q} live={false} />

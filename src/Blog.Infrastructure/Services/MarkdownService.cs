@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Blog.Application.Articles;
 using Blog.Application.Auth;
+using Blog.Application.Common;
 using Ganss.Xss;
 using Markdig;
 using Markdig.Syntax;
@@ -46,7 +47,7 @@ public sealed class MarkdownService : IMarkdownService
             return string.Empty;
         }
 
-        var html = Markdown.ToHtml(markdown, Pipeline);
+        var html = Markdown.ToHtml(EditorialText.WithoutAiDashes(markdown), Pipeline);
         return _sanitizer.Sanitize(html);
     }
 
@@ -64,7 +65,7 @@ public sealed class MarkdownService : IMarkdownService
             var text = heading.Inline?.FirstChild is LiteralInline literal
                 ? literal.Content.ToString()
                 : heading.Inline?.ToString() ?? string.Empty;
-            text = Regex.Replace(text ?? string.Empty, "<.*?>", string.Empty).Trim();
+            text = EditorialText.WithoutAiDashes(Regex.Replace(text ?? string.Empty, "<.*?>", string.Empty).Trim());
             if (string.IsNullOrWhiteSpace(text))
             {
                 continue;

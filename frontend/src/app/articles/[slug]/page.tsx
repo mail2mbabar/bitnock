@@ -66,20 +66,20 @@ export default async function ArticlePage({ params }: Props) {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <ReadingProgress />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <nav aria-label="Breadcrumb" className="text-sm text-muted">
+      <nav aria-label="Breadcrumb" className="text-sm text-muted break-words">
         <Link href="/">Home</Link> / <Link href="/articles">Articles</Link> / <Link href={`/categories/${article.categorySlug}`}>{article.categoryName}</Link>
       </nav>
       <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem]">
-        <article>
+        <article className="min-w-0 max-w-full">
           <p className="text-xs uppercase tracking-[0.18em] text-muted">{article.categoryName} · {article.difficulty} · {article.contentType}</p>
-          <h1 className="mt-3 font-serif text-4xl tracking-tight md:text-5xl">{article.title}</h1>
-          {article.subtitle ? <p className="mt-4 text-xl text-muted">{article.subtitle}</p> : <p className="mt-4 text-xl text-muted">{article.excerpt}</p>}
+          <h1 className="mt-3 font-serif text-[1.75rem] leading-tight tracking-tight break-words sm:text-4xl md:text-5xl">{article.title}</h1>
+          {article.subtitle ? <p className="mt-4 text-lg text-muted break-words sm:text-xl">{article.subtitle}</p> : <p className="mt-4 text-lg text-muted break-words sm:text-xl">{article.excerpt}</p>}
           <p className="mt-5 flex flex-wrap items-center gap-3 text-sm text-muted">
             {article.authorAvatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={article.authorAvatarUrl} alt="" className="h-8 w-8 rounded-full object-cover" />
+              <img src={publicAssetUrl(article.authorAvatarUrl) ?? article.authorAvatarUrl} alt="" className="h-8 w-8 shrink-0 rounded-full object-cover" />
             ) : null}
-            <span>
+            <span className="min-w-0 break-words">
               <Link href={`/author/${article.authorSlug}`}>{article.authorName}</Link>
               {" · Microsoft MVP"}
               {" · "}Published {formatDate(article.publishedAt)}
@@ -94,7 +94,7 @@ export default async function ArticlePage({ params }: Props) {
           </div>
           {article.featuredImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={publicAssetUrl(article.featuredImageUrl) ?? article.featuredImageUrl} alt="" className="mt-8 w-full rounded-2xl" />
+            <img src={publicAssetUrl(article.featuredImageUrl) ?? article.featuredImageUrl} alt="" className="mt-8 h-auto w-full max-h-[min(28rem,70vw)] rounded-2xl object-cover" />
           ) : null}
           {article.seriesName && article.seriesSlug ? (
             <div className="mt-8 rounded-xl border border-rule p-4">
@@ -117,17 +117,17 @@ export default async function ArticlePage({ params }: Props) {
             <ShareBar title={article.title} url={url} />
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {article.previous ? <Link href={`/articles/${article.previous.slug}`} className="rounded-xl border border-rule p-4 text-sm">Previous<br /><span className="font-serif text-lg">{article.previous.title}</span></Link> : <div />}
-            {article.next ? <Link href={`/articles/${article.next.slug}`} className="rounded-xl border border-rule p-4 text-right text-sm">Next<br /><span className="font-serif text-lg">{article.next.title}</span></Link> : null}
+            {article.previous ? <Link href={`/articles/${article.previous.slug}`} className="rounded-xl border border-rule p-4 text-sm break-words">Previous<br /><span className="font-serif text-lg">{article.previous.title}</span></Link> : <div />}
+            {article.next ? <Link href={`/articles/${article.next.slug}`} className="rounded-xl border border-rule p-4 text-right text-sm break-words">Next<br /><span className="font-serif text-lg">{article.next.title}</span></Link> : null}
           </div>
-          <section className="mt-12 rounded-2xl border border-rule p-6">
-            <div className="flex items-start gap-4">
+          <section className="mt-12 rounded-2xl border border-rule p-4 sm:p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               {article.authorAvatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={article.authorAvatarUrl} alt="" className="h-16 w-16 rounded-2xl object-cover" />
+                <img src={publicAssetUrl(article.authorAvatarUrl) ?? article.authorAvatarUrl} alt="" className="h-16 w-16 shrink-0 rounded-2xl object-cover" />
               ) : null}
-              <div>
-                <h2 className="font-serif text-2xl">Written by {article.authorName}</h2>
+              <div className="min-w-0">
+                <h2 className="font-serif text-2xl break-words">Written by {article.authorName}</h2>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted">Microsoft MVP · Developer Technologies · .NET</p>
                 <p className="mt-3 text-muted">{article.authorBio}</p>
                 <div className="mt-3 flex flex-wrap gap-4 text-sm">
@@ -142,7 +142,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="mt-10"><NewsletterForm /></div>
           <section className="mt-12">
             <h2 className="font-serif text-2xl">Related</h2>
-            <div className="mt-6 grid gap-8 md:grid-cols-2">
+            <div className="mt-6 grid min-w-0 gap-8 md:grid-cols-2">
               {article.related.map((item) => <ArticleCard key={item.id} article={item} />)}
             </div>
           </section>

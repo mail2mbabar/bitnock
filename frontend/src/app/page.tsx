@@ -5,7 +5,7 @@ import { HomepageBrand } from "@/components/site/BrandLockup";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
 import { fetchEnvelope } from "@/lib/api";
 import type { ArticleListItem, Author, Category, SiteSettings } from "@/lib/types";
-import { YOUTUBE_CHANNEL_URL, channelVideos, youtubeThumb } from "@/lib/videos";
+import { channelVideos, youtubeThumb } from "@/lib/videos";
 
 export default async function HomePage() {
   const [settings, articles, featured, categories, authors] = await Promise.all([
@@ -27,7 +27,7 @@ export default async function HomePage() {
       <section>
         <HomepageBrand siteName={settings.data?.siteName ?? "Bitnock"} />
         <p className="mt-5 max-w-2xl text-lg text-muted">
-          {settings.data?.siteDescription ?? "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, and the ABi Helpline videos — with written guides."}
+          {settings.data?.siteDescription ?? "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, tutorials and interview preparations."}
         </p>
       </section>
 
@@ -41,13 +41,13 @@ export default async function HomePage() {
       <section className="mt-16 border-t border-rule pt-10">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-muted">ABi Helpline</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-muted">Tutorials</p>
             <h2 className="mt-2 font-serif text-3xl">Videos</h2>
           </div>
           <Link href="/videos" className="text-sm underline">All {channelVideos.length} videos</Link>
         </div>
         <p className="mt-3 max-w-2xl text-muted">
-          Every tutorial from <a className="underline" href={YOUTUBE_CHANNEL_URL}>youtube.com/@ABiHelpline</a> — C#, ASP.NET Core, interviews — with a written guide next to the player.
+          Tutorials and interview preparations in C#, ASP.NET Core, and related topics, with a written article next to each player.
         </p>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {channelVideos.slice(0, 4).map((video) => (

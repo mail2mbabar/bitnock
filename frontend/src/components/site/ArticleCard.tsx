@@ -5,7 +5,7 @@ import { publicAssetUrl } from "@/lib/env";
 
 export function ArticleCard({ article, featured = false }: { article: ArticleListItem; featured?: boolean }) {
   return (
-    <article className={featured ? "grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-end" : "flex flex-col gap-3"}>
+    <article className={featured ? "grid min-w-0 gap-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-end" : "flex min-w-0 flex-col gap-3"}>
       {article.featuredImageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={publicAssetUrl(article.featuredImageUrl) ?? article.featuredImageUrl} alt="" className="aspect-[16/9] w-full rounded-xl object-cover" />
@@ -16,7 +16,7 @@ export function ArticleCard({ article, featured = false }: { article: ArticleLis
       )}
       <div>
         <p className="text-xs uppercase tracking-[0.18em] text-muted">{article.categoryName}</p>
-        <h2 className={`mt-2 font-serif tracking-tight ${featured ? "text-4xl" : "text-2xl"}`}>
+        <h2 className={`mt-2 font-serif tracking-tight break-words ${featured ? "text-3xl sm:text-4xl" : "text-2xl"}`}>
           <Link href={`/articles/${article.slug}`} className="hover:text-accent">{article.title}</Link>
         </h2>
         <p className="mt-3 text-muted">{article.excerpt}</p>

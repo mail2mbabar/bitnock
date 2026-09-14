@@ -21,6 +21,8 @@ services:
         value: http://+:8080
       - key: Site__Name
         value: Bitnock
+      - key: Site__Description
+        value: "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, tutorials and interview preparations."
       - key: Seed__Enabled
         value: "true"
       - key: Jwt__SigningKey

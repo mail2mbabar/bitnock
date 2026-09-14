@@ -17,7 +17,7 @@ const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variabl
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchEnvelope<SiteSettings>("/api/v1/public/settings", { revalidate: 0 }).catch(() => null);
   const name = settings?.data?.siteName ?? "Bitnock";
-  const description = settings?.data?.siteDescription ?? "Bitnock is Muhammad Babar’s .NET engineering publication.";
+  const description = settings?.data?.siteDescription ?? "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, tutorials and interview preparations.";
   const siteUrl = readEnv("NEXT_PUBLIC_SITE_URL", "http://localhost:3000");
   const metadataBase = new URL(siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`);
   return {

@@ -68,18 +68,18 @@ export default async function AboutPage() {
       </section>
 
       <section className="mt-12">
-        <h2 className="font-serif text-3xl">ABi Helpline on YouTube</h2>
+        <h2 className="font-serif text-3xl">Tutorials and interview preparations</h2>
         <p className="mt-3 text-muted">
           I publish free C#, ASP.NET Core, EF Core, JWT, Clean Architecture, and interview videos on{" "}
-          <a className="underline" href="https://www.youtube.com/@ABiHelpline">youtube.com/@ABiHelpline</a>.
-          Every video is also on <Link className="underline" href="/videos">Bitnock Videos</Link> with a long-form written guide.
+          <a className="underline" href="https://www.youtube.com/@ABiHelpline">YouTube</a>.
+          Every tutorial is also on <Link className="underline" href="/videos">Bitnock Videos</Link> with a written article.
         </p>
       </section>
 
       <section className="mt-12">
         <h2 className="font-serif text-3xl">What I write about</h2>
         <p className="mt-3 text-muted">
-          Production ASP.NET Core, modern C#, EF Core, Azure hosting and messaging, interview preparation, and honest comparisons — App Service vs Container Apps, Functions vs workers, Angular vs Blazor, Actions vs Azure DevOps. The companion notes to ABi Helpline live next to the engineering essays. The CMS behind this site is API-first so a future agent can draft and publish through scoped credentials.
+          Production ASP.NET Core, modern C#, EF Core, Azure hosting and messaging, interview preparation, and honest comparisons: App Service vs Container Apps, Functions vs workers, Angular vs Blazor, Actions vs Azure DevOps. Tutorials and interview preparations sit next to the engineering essays.
         </p>
       </section>
 

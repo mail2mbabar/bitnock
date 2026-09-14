@@ -5,7 +5,7 @@ public sealed class SiteOptions
     public const string SectionName = "Site";
 
     public string Name { get; set; } = "Bitnock";
-    public string Description { get; set; } = "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, and ABi Helpline videos with written guides.";
+    public string Description { get; set; } = "Bitnock is Muhammad Babar’s .NET engineering publication. C#, ASP.NET Core, Azure, tutorials and interview preparations.";
     public string Url { get; set; } = "http://localhost:3000";
     public string LogoUrl { get; set; } = "/logo.png";
     public string FaviconUrl { get; set; } = "/favicon.ico";
