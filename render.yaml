@@ -57,7 +57,7 @@ services:
     autoDeploy: true
     dockerfilePath: frontend/Dockerfile
     dockerContext: frontend
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: HOSTNAME
         value: "0.0.0.0"
